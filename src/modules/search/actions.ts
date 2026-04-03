@@ -1,19 +1,26 @@
 "use server"
 
-import { SEARCH_INDEX_NAME, searchClient } from "@lib/search-client"
+import { meiliClient, SEARCH_INDEX_NAME } from "@lib/search-client"
 
-interface Hits {
-  readonly objectID?: string
-  id?: string
-  [x: string | number | symbol]: unknown
+export type ProductHit = {
+  id: string
+  title: string
+  handle: string
+  description?: string | null
+  thumbnail?: string | null
+  variant_sku?: string
 }
 
-export async function search(query: string) {
-  const queries = [{ params: { query }, indexName: SEARCH_INDEX_NAME }]
-  const { results } = (await searchClient.search(queries)) as Record<
-    string,
-    any
-  >
-  const { hits } = results[0] as { hits: Hits[] }
-  return hits
+export async function search(query: string): Promise<ProductHit[]> {
+  if (!query.trim()) return []
+
+  try {
+    const results = await meiliClient
+      .index(SEARCH_INDEX_NAME)
+      .search(query, { limit: 20 })
+    return results.hits as ProductHit[]
+  } catch (err) {
+    console.error("Search error:", err)
+    return []
+  }
 }

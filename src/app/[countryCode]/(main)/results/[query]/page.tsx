@@ -23,7 +23,7 @@ export default async function SearchResults(props: Params) {
   const hits = await search(query)
 
   const ids = hits
-    .map((h) => h.objectID || h.id)
+    .map((h) => h.id)
     .filter((id): id is string => {
       return typeof id === "string"
     })

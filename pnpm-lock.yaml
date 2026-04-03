@@ -63,6 +63,9 @@ importers:
       react-dom:
         specifier: 19.0.4
         version: 19.0.4(react@19.0.4)
+      react-icons:
+        specifier: ^5.6.0
+        version: 5.6.0(react@19.0.4)
       react-instantsearch-hooks-web:
         specifier: ^6.47.3
         version: 6.47.3(algoliasearch@4.27.0)(react-dom@19.0.4(react@19.0.4))(react@19.0.4)
@@ -3673,6 +3676,11 @@ packages:
     resolution: {integrity: sha512-JiVlwQwuINIQf2+XUjtRFtLxhTE6hcyX7ZyCmY0HM7I/Kgi7qyXThkzwzg6uCfu3rTg9Ofe1x8qWYrfqthIrzg==}
     peerDependencies:
       react: ^19.0.4
+
+  react-icons@5.6.0:
+    resolution: {integrity: sha512-RH93p5ki6LfOiIt0UtDyNg/cee+HLVR6cHHtW3wALfo+eOHTp8RnU2kRkI6E+H19zMIs03DyxUG/GfZMOGvmiA==}
+    peerDependencies:
+      react: '*'
 
   react-instantsearch-hooks-web@6.47.3:
     resolution: {integrity: sha512-JTkPm11xwCX9eO4FgeeJ4v4O98wz1L7cAa2LkspgzDD1MPjMLtmiRVzvGxuYnOayQTtfC5+0GOBwuJEN8TDI8A==}
@@ -8466,6 +8474,10 @@ snapshots:
     dependencies:
       react: 19.0.4
       scheduler: 0.25.0
+
+  react-icons@5.6.0(react@19.0.4):
+    dependencies:
+      react: 19.0.4
 
   react-instantsearch-hooks-web@6.47.3(algoliasearch@4.27.0)(react-dom@19.0.4(react@19.0.4))(react@19.0.4):
     dependencies:
