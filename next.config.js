@@ -24,6 +24,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  serverRuntimeConfig: {
+    port: process.env.PORT || 8000,
+  },
   images: {
     remotePatterns: [
       {
@@ -41,6 +44,14 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "medusa-server-testing.s3.us-east-1.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "safarknots-media-dev.s3.ap-south-1.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.s3.ap-south-1.amazonaws.com",
       },
       ...(S3_HOSTNAME && S3_PATHNAME
         ? [

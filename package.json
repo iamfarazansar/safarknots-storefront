@@ -8,9 +8,13 @@
     "medusa-storefront"
   ],
   "scripts": {
-    "dev": "next dev --turbopack -p 8000",
-    "build": "next build",
-    "start": "next start -p 8000",
+    "wait": "await-backend",
+    "launcher": "launch-storefront",
+    "dev": "npm run wait && npm run launcher dev",
+    "dev:next": "next dev --turbopack -p 8000",
+    "build": "npm run wait && npm run launcher build",
+    "build:next": "next build",
+    "start": "npm run launcher start",
     "lint": "next lint",
     "analyze": "ANALYZE=true next build"
   },
@@ -25,6 +29,7 @@
     "@stripe/stripe-js": "^8.2.0",
     "algoliasearch": "^4.27.0",
     "lodash": "^4.17.21",
+    "medusajs-launch-utils": "^0.0.19",
     "meilisearch": "^0.57.0",
     "next": "15.3.9",
     "pg": "^8.11.3",
