@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef } from "react"
-import { BiMenuAltRight } from "react-icons/bi"
+import { BiMenuAltLeft } from "react-icons/bi"
 import { VscChromeClose } from "react-icons/vsc"
 import MenuMobile from "@modules/layout/components/menu-mobile"
 
@@ -21,7 +21,7 @@ export default function NavMobile({ categories }: { categories: any[] }) {
         {mobileMenu ? (
           <VscChromeClose className="text-[18px]" />
         ) : (
-          <BiMenuAltRight className="text-[22px]" />
+          <BiMenuAltLeft className="text-[22px]" />
         )}
       </button>
 

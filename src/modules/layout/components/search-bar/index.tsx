@@ -19,7 +19,7 @@ type ProductHit = {
   variant_sku?: string
 }
 
-export default function SearchBar({ children }: { children?: React.ReactNode }) {
+export default function SearchBar() {
   const [isOpen, setIsOpen] = useState(false)
   const [query, setQuery] = useState("")
   const [results, setResults] = useState<ProductHit[]>([])
@@ -28,14 +28,25 @@ export default function SearchBar({ children }: { children?: React.ReactNode }) 
   const inputRefMobile = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const mobileContainerRef = useRef<HTMLDivElement>(null)
+  const proxyInputRef = useRef<HTMLInputElement>(null)
   const debounceRef = useRef<NodeJS.Timeout | null>(null)
 
   // Focus input when search opens
   useEffect(() => {
     if (isOpen) {
-      setTimeout(() => inputRef.current?.focus(), 150)
+      setTimeout(() => inputRef.current?.focus(), 200)
       setTimeout(() => inputRefMobile.current?.focus(), 100)
     }
+  }, [isOpen])
+
+  // Toggle body class to hide nav links when search is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("search-open")
+    } else {
+      document.body.classList.remove("search-open")
+    }
+    return () => document.body.classList.remove("search-open")
   }, [isOpen])
 
   // Close on click outside
@@ -120,7 +131,7 @@ export default function SearchBar({ children }: { children?: React.ReactNode }) 
             No results for &ldquo;{query}&rdquo;
           </div>
         ) : (
-          <div className="max-h-[60vh] md:max-h-[400px] overflow-y-auto">
+          <div className="max-h-[60vh] tablet:max-h-[400px] overflow-y-auto">
             {results.map((product, i) => (
               <LocalizedClientLink
                 key={product.id}
@@ -156,67 +167,71 @@ export default function SearchBar({ children }: { children?: React.ReactNode }) 
 
   return (
     <>
-      {/* ========== DESKTOP: inline search replacing nav links ========== */}
-      <div ref={containerRef} className="relative items-center hidden tablet:flex flex-1 justify-end gap-5 medium:gap-8 large:gap-10">
-        {/* When search is closed, show nav links (children) */}
-        {!isOpen && children}
+      {/* CSS to smoothly hide right nav links when search is open */}
+      <style jsx global>{`
+        [data-nav-right-links] {
+          transition: opacity 0.3s ease, max-width 0.3s ease;
+          opacity: 1;
+          max-width: 500px;
+          overflow: hidden;
+        }
+        .search-open [data-nav-right-links] {
+          opacity: 0;
+          max-width: 0;
+          pointer-events: none;
+        }
+      `}</style>
 
-        {/* When search is open, show inline input in place of nav links */}
-        {isOpen && (
-          <div
-            className="flex items-center border border-gray-300 rounded-full overflow-hidden flex-1 max-w-[380px]"
-            style={{
-              animation: "searchExpandInline 0.25s ease-out forwards",
+      {/* ========== DESKTOP: smooth expanding pill ========== */}
+      <div ref={containerRef} className="relative items-center hidden tablet:flex w-10 h-10">
+        <div
+          className={`flex items-center overflow-hidden transition-all duration-300 ease-in-out rounded-full absolute right-0 top-0 ${
+            isOpen ? "w-[320px] bg-gray-100 border border-gray-200" : "w-10"
+          }`}
+        >
+          <button
+            onClick={() => {
+              if (!isOpen) setIsOpen(true)
             }}
+            className={`flex-shrink-0 w-10 h-10 rounded-full flex justify-center items-center cursor-pointer transition ${
+              isOpen ? "" : "hover:bg-black/[0.05]"
+            }`}
+            aria-label="Search"
           >
-            <div className="flex-shrink-0 w-10 h-10 flex justify-center items-center">
-              <BsSearch className="text-[15px] text-gray-400" />
-            </div>
-            <input
-              ref={inputRef}
-              type="text"
-              placeholder="Search products..."
-              value={query}
-              onChange={handleInputChange}
-              className="bg-transparent outline-none text-sm flex-1 pr-2"
-            />
+            <BsSearch className="text-[18px] text-gray-600" />
+          </button>
+
+          <input
+            ref={inputRef}
+            type="text"
+            placeholder="Search products..."
+            value={query}
+            onChange={handleInputChange}
+            className={`bg-transparent outline-none text-sm flex-1 pr-2 transition-opacity duration-200 ${
+              isOpen
+                ? "opacity-100 w-full"
+                : "opacity-0 w-0 pointer-events-none"
+            }`}
+          />
+
+          {isOpen && (
             <button
               onClick={closeSearch}
               className="flex-shrink-0 w-10 h-10 flex justify-center items-center text-gray-400 hover:text-black transition"
               aria-label="Close search"
             >
-              <BsX className="text-xl" />
+              <BsX className="text-2xl" />
             </button>
-          </div>
-        )}
-
-        {/* Search icon — always visible */}
-        <button
-          onClick={() => {
-            if (isOpen) closeSearch()
-            else setIsOpen(true)
-          }}
-          className="w-10 h-10 rounded-full flex justify-center items-center cursor-pointer hover:bg-black/[0.05] transition shrink-0"
-          aria-label="Search"
-        >
-          <BsSearch className="text-[18px] text-gray-600" />
-        </button>
+          )}
+        </div>
 
         {/* Desktop results dropdown */}
         {isOpen && query.trim() && (
-          <div className="absolute top-full right-10 mt-2 w-[400px] bg-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-gray-100 overflow-hidden z-[100]">
+          <div className="absolute top-full right-0 mt-2 w-[400px] bg-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-gray-100 overflow-hidden z-[100]">
             {renderResults()}
           </div>
         )}
       </div>
-
-      {/* Desktop inline animation */}
-      <style jsx global>{`
-        @keyframes searchExpandInline {
-          from { opacity: 0; max-width: 40px; }
-          to { opacity: 1; max-width: 380px; }
-        }
-      `}</style>
 
       {/* ========== MOBILE ========== */}
       <style jsx global>{`
@@ -238,13 +253,24 @@ export default function SearchBar({ children }: { children?: React.ReactNode }) 
       {/* Mobile search icon */}
       {!isOpen && (
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            proxyInputRef.current?.focus()
+            setIsOpen(true)
+          }}
           className="tablet:hidden w-8 h-8 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer transition"
           aria-label="Search"
         >
           <BsSearch className="text-[15px] text-black" />
         </button>
       )}
+
+      {/* Hidden proxy input for iOS keyboard */}
+      <input
+        ref={proxyInputRef}
+        className="absolute opacity-0 w-0 h-0 pointer-events-none"
+        tabIndex={-1}
+        aria-hidden="true"
+      />
 
       {/* Mobile overlay */}
       {isOpen && (
@@ -253,9 +279,10 @@ export default function SearchBar({ children }: { children?: React.ReactNode }) 
           className="fixed inset-x-0 top-0 z-[200] tablet:hidden"
         >
           <div
-            className="flex items-center gap-2 bg-[#FAF7F2] px-4 h-[76px] shadow-md border-b border-gray-200"
+            className="flex items-center gap-2 bg-[#FAF7F2] px-4 h-[76px] shadow-md border-b border-gray-200 origin-center"
             style={{
-              animation: "searchFadeIn 0.2s ease-out forwards",
+              animation:
+                "searchGrowIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
             }}
           >
             <div className="flex items-center flex-1 bg-gray-100 rounded-full border border-gray-200">
@@ -268,7 +295,7 @@ export default function SearchBar({ children }: { children?: React.ReactNode }) 
                 placeholder="Search products..."
                 value={query}
                 onChange={handleInputChange}
-                className="bg-transparent outline-none text-base flex-1 pr-2"
+                className="bg-transparent outline-none text-sm flex-1 pr-2"
               />
               <button
                 onClick={closeSearch}

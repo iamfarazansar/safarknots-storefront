@@ -60,8 +60,9 @@ export default async function Nav() {
         </div>
 
         {/* RIGHT NAV LINKS + SEARCH + ICONS */}
-        <div className="flex items-center flex-1 justify-end">
-          <SearchBar>
+        <div className="flex items-center gap-5 medium:gap-8 large:gap-10 flex-1 justify-end">
+          {/* Right links — hidden via CSS when search is open */}
+          <div data-nav-right-links className="flex items-center gap-5 medium:gap-8 large:gap-10">
             {NAV_LINKS_RIGHT.map((link) => (
               <LocalizedClientLink
                 key={link.name}
@@ -71,9 +72,11 @@ export default async function Nav() {
                 {link.name}
               </LocalizedClientLink>
             ))}
-          </SearchBar>
+          </div>
 
-          <div className="flex items-center gap-1 ml-1">
+          <div className="flex items-center gap-1">
+            <SearchBar />
+
             <LocalizedClientLink
               className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-gray-100 cursor-pointer transition-colors duration-200"
               href="/account"
