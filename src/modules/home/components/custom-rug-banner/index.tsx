@@ -1,0 +1,211 @@
+"use client"
+
+import React, { useState, useCallback, useEffect } from "react"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import Image from "next/image"
+
+type CustomRugBannerProps = {
+  title?: string
+  subtitle?: string
+  description?: string
+  primaryCtaText?: string
+  primaryCtaHref?: string
+  secondaryCtaText?: string
+  howItWorksImageSrc?: string
+  chips?: string[]
+  originalImageSrc?: string
+  rugImageSrc?: string
+}
+
+export default function CustomRugBanner({
+  title = "Turn your idea into a rug.",
+  subtitle = "CUSTOM ORDER",
+  description = "Share a photo or concept — we'll design, knot, and ship it worldwide.",
+  primaryCtaText = "Get Custom Rug",
+  primaryCtaHref = "/custom-rug",
+  secondaryCtaText = "How it works →",
+  howItWorksImageSrc = "/custom/how-it-works.jpg",
+  chips = ["Free quotation", "Worldwide shipping", "Handcrafted"],
+  originalImageSrc = "/custom/original.JPG",
+  rugImageSrc = "/custom/rug.JPG",
+}: CustomRugBannerProps) {
+  const [showOverlay, setShowOverlay] = useState(false)
+
+  useEffect(() => {
+    if (showOverlay) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [showOverlay])
+
+  const handleOverlayClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (e.target === e.currentTarget) setShowOverlay(false)
+    },
+    []
+  )
+
+  return (
+    <>
+      <section className="w-full">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="relative overflow-hidden rounded-3xl border border-[#E5DBCF] bg-[#fbf8f2] shadow-[0_18px_50px_rgba(0,0,0,0.06)]">
+            {/* Soft background accents */}
+            <div className="pointer-events-none absolute inset-0">
+              <div className="absolute -left-24 top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full bg-[#ead8c4]/60 blur-3xl" />
+              <div className="absolute inset-0 opacity-[0.06] [background-image:radial-gradient(#000_1px,transparent_1px)] [background-size:18px_18px]" />
+
+              <div className="absolute right-0 top-0 hidden h-full w-[46%] lg:block">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#f5eadc] via-[#fbf8f2] to-[#f1e3d1]" />
+                <div className="absolute inset-0 flex items-center justify-center px-8">
+                  <div className="relative h-[320px] w-full max-w-[520px]">
+                    <div className="absolute left-0 top-6 w-[48%] rotate-[-2deg]">
+                      <div className="rounded-3xl border border-[#E5DBCF] bg-[#FCFAF7] p-3 shadow-[0_18px_50px_rgba(0,0,0,0.10)] backdrop-blur">
+                        <div className="relative overflow-hidden rounded-2xl">
+                          <img
+                            src={originalImageSrc}
+                            alt="Original"
+                            className="h-[200px] w-full object-cover"
+                          />
+                          <span className="absolute left-3 top-3 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-[#5a463a]">
+                            Photo
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="absolute right-0 top-6 w-[48%] rotate-[2deg]">
+                      <div className="rounded-3xl border border-[#E5DBCF] bg-[#FCFAF7] p-3 shadow-[0_18px_50px_rgba(0,0,0,0.10)] backdrop-blur">
+                        <div className="relative overflow-hidden rounded-2xl">
+                          <img
+                            src={rugImageSrc}
+                            alt="Rug"
+                            className="h-[200px] w-full object-cover"
+                          />
+                          <span className="absolute left-3 top-3 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-[#5a463a]">
+                            Rug
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <svg
+                      className="relative left-1/2 -translate-y-1/2"
+                      viewBox="0 -66.5 220 220"
+                      xmlns="http://www.w3.org/2000/svg"
+                      style={{
+                        width: 140,
+                        height: 140,
+                        transform: "translateX(-50%) rotate(180deg) scaleX(-1)",
+                      }}
+                    >
+                      <path
+                        d="M3.17247 25.8421C5.28745 28.1788 7.82542 30.0907 9.7289 32.6399C26.0142 55.3699 49.279 66.6287 75.0817 72.7892C83.9646 74.9135 94.1165 74.7011 103.211 72.7892C129.225 67.6909 152.913 56.8569 173.428 39.8625C179.35 34.9766 184.426 28.8161 188.656 21.8059C186.33 22.6556 183.792 23.5054 181.465 24.5675C174.697 27.5415 167.929 30.728 160.95 33.2772C157.989 34.3393 154.393 34.3393 151.009 34.1269C149.74 34.1269 147.837 32.215 147.625 30.9404C147.414 29.6658 148.683 27.3291 149.74 27.1167C167.718 21.5935 183.369 10.972 199.654 1.83746C205.364 -1.34899 208.96 -0.49927 211.498 5.23635C217.631 19.4692 220.381 34.5517 219.958 50.0592C219.958 50.484 219.112 51.1213 217.843 52.3959C205.364 47.7224 209.171 34.1269 203.038 23.2929C201.557 25.8421 200.5 27.9664 199.231 29.6658C172.582 62.5926 137.262 80.0118 96.2315 86.3848C90.0981 87.4469 83.3301 87.022 76.9852 85.9599C53.7205 81.9237 32.9937 72.1519 15.8623 55.7948C10.3634 50.484 6.34493 43.4738 2.32647 36.8885C0.634492 34.3393 0.634494 30.728 0 27.754C1.05749 27.1167 2.11498 26.4794 3.17247 25.8421Z"
+                        fill="#0D1927"
+                      />
+                    </svg>
+
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-xs text-[#8b7d74]">
+                      Photo → Handmade rug
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="relative grid grid-cols-1 gap-10 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-2 lg:gap-6">
+              <div className="max-w-xl">
+                <span className="inline-flex items-center rounded-full border border-[#e3d6c7] bg-[#FCFAF7] px-3 py-1 text-[12px] font-semibold tracking-[0.18em] text-[#5a463a]">
+                  {subtitle}
+                </span>
+
+                <h3 className="mt-4 text-3xl font-semibold leading-tight text-[#2f2723] sm:text-4xl">
+                  {title}
+                </h3>
+
+                <p className="mt-3 text-[15px] leading-relaxed text-[#6b5f58] sm:text-base">
+                  {description}
+                </p>
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {chips.map((chip) => (
+                    <span
+                      key={chip}
+                      className="inline-flex items-center rounded-full border border-[#eadfce] bg-[#FCFAF7] px-3 py-1 text-sm text-[#574b45]"
+                    >
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <LocalizedClientLink
+                    href={primaryCtaHref}
+                    className="inline-flex items-center justify-center rounded-2xl bg-[#bb8c5c] px-6 py-3 text-sm font-semibold text-white shadow-[0_12px_24px_rgba(0,0,0,0.16)] transition-colors hover:bg-[#a97a4c]"
+                  >
+                    {primaryCtaText}
+                  </LocalizedClientLink>
+
+                  <button
+                    onClick={() => setShowOverlay(true)}
+                    className="inline-flex items-center justify-center rounded-2xl px-2 py-3 text-sm font-semibold text-[#6b5f58] transition-colors hover:text-[#2f2723]"
+                  >
+                    {secondaryCtaText}
+                  </button>
+                </div>
+
+                <p className="mt-3 text-xs text-[#8b7d74]">
+                  Upload an image - Get a free quotation in 24-48h
+                </p>
+              </div>
+
+              <div className="hidden lg:block" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {showOverlay && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-6"
+          onClick={handleOverlayClick}
+        >
+          <div className="relative max-w-4xl w-full">
+            <button
+              onClick={() => setShowOverlay(false)}
+              className="absolute top-2 right-2 sm:-top-4 sm:-right-4 z-10 flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-white/90 sm:bg-white text-zinc-800 shadow-lg transition-transform hover:scale-110"
+              aria-label="Close"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+            <Image
+              src={howItWorksImageSrc}
+              alt="How it works — Custom Rug Process"
+              width={2400}
+              height={1792}
+              className="w-full h-auto rounded-xl sm:rounded-2xl shadow-2xl"
+            />
+          </div>
+        </div>
+      )}
+    </>
+  )
+}

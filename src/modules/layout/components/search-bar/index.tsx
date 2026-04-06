@@ -186,7 +186,7 @@ export default function SearchBar() {
       <div ref={containerRef} className="relative items-center hidden tablet:flex w-10 h-10">
         <div
           className={`flex items-center overflow-hidden transition-all duration-300 ease-in-out rounded-full absolute right-0 top-0 ${
-            isOpen ? "w-[320px] bg-gray-100 border border-gray-200" : "w-10"
+            isOpen ? "w-[320px] bg-[#F3EEE7] border border-[#DED2C5] focus-within:border-[#B79D86]" : "w-10"
           }`}
         >
           <button
@@ -198,7 +198,7 @@ export default function SearchBar() {
             }`}
             aria-label="Search"
           >
-            <BsSearch className="text-[18px] text-gray-600" />
+            <BsSearch className="text-[18px] text-[#6A5447]" />
           </button>
 
           <input
@@ -207,7 +207,7 @@ export default function SearchBar() {
             placeholder="Search products..."
             value={query}
             onChange={handleInputChange}
-            className={`bg-transparent outline-none text-sm flex-1 pr-2 transition-opacity duration-200 ${
+            className={`bg-transparent outline-none text-sm text-[#5A463A] placeholder:text-[#A39384] flex-1 pr-2 transition-opacity duration-200 ${
               isOpen
                 ? "opacity-100 w-full"
                 : "opacity-0 w-0 pointer-events-none"
@@ -217,7 +217,7 @@ export default function SearchBar() {
           {isOpen && (
             <button
               onClick={closeSearch}
-              className="flex-shrink-0 w-10 h-10 flex justify-center items-center text-gray-400 hover:text-black transition"
+              className="flex-shrink-0 w-10 h-10 flex justify-center items-center text-[#6A5447] hover:text-[#3F2F26] transition"
               aria-label="Close search"
             >
               <BsX className="text-2xl" />
@@ -260,7 +260,7 @@ export default function SearchBar() {
           className="tablet:hidden w-8 h-8 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer transition"
           aria-label="Search"
         >
-          <BsSearch className="text-[15px] text-black" />
+          <BsSearch className="text-[15px] text-[#6A5447]" />
         </button>
       )}
 
@@ -279,15 +279,15 @@ export default function SearchBar() {
           className="fixed inset-x-0 top-0 z-[200] tablet:hidden"
         >
           <div
-            className="flex items-center gap-2 bg-[#FAF7F2] px-4 h-[76px] shadow-md border-b border-gray-200 origin-center"
+            className="flex items-center gap-2 bg-[#EEE6DD] px-4 h-[78px] shadow-md border-b border-[#DED2C5] origin-center"
             style={{
               animation:
                 "searchGrowIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
             }}
           >
-            <div className="flex items-center flex-1 bg-gray-100 rounded-full border border-gray-200">
+            <div className="flex items-center flex-1 bg-[#F3EEE7] rounded-full border border-[#DED2C5] focus-within:border-[#B79D86]">
               <div className="flex-shrink-0 w-10 h-10 flex justify-center items-center">
-                <BsSearch className="text-[15px] text-gray-400" />
+                <BsSearch className="text-[15px] text-[#6A5447]" />
               </div>
               <input
                 ref={inputRefMobile}
@@ -295,11 +295,11 @@ export default function SearchBar() {
                 placeholder="Search products..."
                 value={query}
                 onChange={handleInputChange}
-                className="bg-transparent outline-none text-sm flex-1 pr-2"
+                className="bg-transparent outline-none text-base text-[#5A463A] placeholder:text-[#A39384] flex-1 pr-2"
               />
               <button
                 onClick={closeSearch}
-                className="flex-shrink-0 w-10 h-10 flex justify-center items-center text-gray-400 hover:text-black transition"
+                className="flex-shrink-0 w-10 h-10 flex justify-center items-center text-[#6A5447] hover:text-[#3F2F26] transition"
                 aria-label="Close search"
               >
                 <BsX className="text-xl" />

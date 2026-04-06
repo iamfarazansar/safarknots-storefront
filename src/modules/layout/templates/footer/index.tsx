@@ -1,157 +1,130 @@
-import { listCategories } from "@lib/data/categories"
-import { listCollections } from "@lib/data/collections"
-import { Text, clx } from "@medusajs/ui"
-
+import Link from "next/link"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import MedusaCTA from "@modules/layout/components/medusa-cta"
+import Wrapper from "../wrapper"
+import { listRegions } from "@lib/data/regions"
+import { StoreRegion } from "@medusajs/types"
+import CountrySelectFooterNav from "@modules/layout/components/country-select-footer-nav"
+import FooterSocialIcons from "@modules/layout/components/footer-social-icons"
 
 export default async function Footer() {
-  const { collections } = await listCollections({
-    fields: "*products",
-  })
-  const productCategories = await listCategories()
-
+  const regions = await listRegions().then((regions: StoreRegion[]) => regions)
   return (
-    <footer className="border-t border-ui-border-base w-full">
-      <div className="content-container flex flex-col w-full">
-        <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-40">
-          <div>
-            <LocalizedClientLink
-              href="/"
-              className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
+    <footer className="bg-[#b4a794] text-[#2f2723] pt-8 lg:pt-14 pb-3">
+      <Wrapper className="flex justify-between flex-col md:flex-row gap-[50px] md:gap-0 md:flex-wrap">
+        {/* LEFT START */}
+        <div className="flex gap-[50px] md:gap-[75px] lg:gap-[100px] flex-col md:flex-row">
+          {/* MENU START */}
+          <div className="flex flex-col gap-3 shrink-0">
+            <Link
+              href="https://docs.google.com/forms/d/e/1FAIpQLScy8V3hSE3u9VKusz6ZXzXVgjJgLxGb50Rb2r2ILrYLVHK5ig/viewform?usp=sf_link"
+              target="_blank"
             >
-              Medusa Store
+              <div className="font-oswald font-medium uppercase text-sm cursor-pointer">
+                become a partner
+              </div>
+            </Link>
+            <Link
+              href="https://docs.google.com/forms/d/e/1FAIpQLSdpIE3WIRG9FSZ3AYUFKSU5IymBCL36thacXBsX50BNtt5k4A/viewform?usp=sf_link"
+              target="_blank"
+            >
+              <div className="font-oswald font-medium uppercase text-sm cursor-pointer">
+                send us feedback
+              </div>
+            </Link>
+          </div>
+          {/* MENU END */}
+
+          {/* NORMAL MENU START */}
+          <div className="flex gap-[50px] md:gap-[75px] lg:gap-[100px] shrink-0">
+            {/* MENU START */}
+            <div className="flex flex-col gap-3">
+              <div className="font-oswald font-medium uppercase text-sm">
+                get help
+              </div>
+              <LocalizedClientLink href="/payment-options">
+                <div className="text-sm text-[#2f2723]/60 hover:text-[#2f2723] cursor-pointer">
+                  Payment Options
+                </div>
+              </LocalizedClientLink>
+              <LocalizedClientLink href="/contact-us">
+                <div className="text-sm text-[#2f2723]/60 hover:text-[#2f2723] cursor-pointer">
+                  Contact Us
+                </div>
+              </LocalizedClientLink>
+            </div>
+            {/* MENU END */}
+
+            {/* MENU START */}
+            <div className="flex flex-col gap-3">
+              <div className="font-oswald font-medium uppercase text-sm">
+                About SafarKnots
+              </div>
+
+              <LocalizedClientLink href="/about-us">
+                <div className="text-sm text-[#2f2723]/60 hover:text-[#2f2723] cursor-pointer">
+                  About Us
+                </div>
+              </LocalizedClientLink>
+              <LocalizedClientLink href="/sustainability">
+                <div className="text-sm text-[#2f2723]/60 hover:text-[#2f2723] cursor-pointer">
+                  Sustainability
+                </div>
+              </LocalizedClientLink>
+            </div>
+            {/* MENU END */}
+          </div>
+          {/* NORMAL MENU END */}
+        </div>
+        {/* LEFT END */}
+
+        {/* RIGHT START */}
+        <FooterSocialIcons />
+        {/* RIGHT END */}
+      </Wrapper>
+
+      {/* BOTTOM SECTION */}
+      <Wrapper className="mt-10 mb-[env(safe-area-inset-bottom)]">
+        {/* Copyright + Policies + Country */}
+        <div className="flex justify-between items-center flex-col md:flex-row gap-4 md:gap-0 pt-2 md:pt-2 pb-4 md:pb-0 border-t border-[#2f2723]/15">
+          {/* Country Selector - mobile only */}
+          <div className="flex justify-center md:hidden w-full pt-4">
+            <CountrySelectFooterNav regions={regions} />
+          </div>
+
+          <div className="flex gap-2 md:gap-5 text-center md:text-left flex-wrap justify-center">
+            <LocalizedClientLink href="/terms-of-service">
+              <div className="text-[12px] text-[#2f2723]/50 hover:text-[#2f2723] cursor-pointer">
+                Terms of Service
+              </div>
+            </LocalizedClientLink>
+            <LocalizedClientLink href="/privacy-policy">
+              <div className="text-[12px] text-[#2f2723]/50 hover:text-[#2f2723] cursor-pointer">
+                Privacy Policy
+              </div>
+            </LocalizedClientLink>
+            <LocalizedClientLink href="/cancellation-refund-policy">
+              <div className="text-[12px] text-[#2f2723]/50 hover:text-[#2f2723] cursor-pointer">
+                Cancellation & Refund Policy
+              </div>
+            </LocalizedClientLink>
+            <LocalizedClientLink href="/shipping-return-policy">
+              <div className="text-[12px] text-[#2f2723]/50 hover:text-[#2f2723] cursor-pointer">
+                Shipping & Return Policy
+              </div>
             </LocalizedClientLink>
           </div>
-          <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">
-            {productCategories && productCategories?.length > 0 && (
-              <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
-                  Categories
-                </span>
-                <ul
-                  className="grid grid-cols-1 gap-2"
-                  data-testid="footer-categories"
-                >
-                  {productCategories?.slice(0, 6).map((c) => {
-                    if (c.parent_category) {
-                      return
-                    }
 
-                    const children =
-                      c.category_children?.map((child) => ({
-                        name: child.name,
-                        handle: child.handle,
-                        id: child.id,
-                      })) || null
-
-                    return (
-                      <li
-                        className="flex flex-col gap-2 text-ui-fg-subtle txt-small"
-                        key={c.id}
-                      >
-                        <LocalizedClientLink
-                          className={clx(
-                            "hover:text-ui-fg-base",
-                            children && "txt-small-plus"
-                          )}
-                          href={`/categories/${c.handle}`}
-                          data-testid="category-link"
-                        >
-                          {c.name}
-                        </LocalizedClientLink>
-                        {children && (
-                          <ul className="grid grid-cols-1 ml-3 gap-2">
-                            {children &&
-                              children.map((child) => (
-                                <li key={child.id}>
-                                  <LocalizedClientLink
-                                    className="hover:text-ui-fg-base"
-                                    href={`/categories/${child.handle}`}
-                                    data-testid="category-link"
-                                  >
-                                    {child.name}
-                                  </LocalizedClientLink>
-                                </li>
-                              ))}
-                          </ul>
-                        )}
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
-            )}
-            {collections && collections.length > 0 && (
-              <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
-                  Collections
-                </span>
-                <ul
-                  className={clx(
-                    "grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small",
-                    {
-                      "grid-cols-2": (collections?.length || 0) > 3,
-                    }
-                  )}
-                >
-                  {collections?.slice(0, 6).map((c) => (
-                    <li key={c.id}>
-                      <LocalizedClientLink
-                        className="hover:text-ui-fg-base"
-                        href={`/collections/${c.handle}`}
-                      >
-                        {c.title}
-                      </LocalizedClientLink>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base">Medusa</span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
-                <li>
-                  <a
-                    href="https://github.com/medusajs"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    GitHub
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://docs.medusajs.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Documentation
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://github.com/medusajs/nextjs-starter-medusa"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Source code
-                  </a>
-                </li>
-              </ul>
-            </div>
+          {/* Country Selector - desktop only */}
+          <div className="hidden md:flex justify-end">
+            <CountrySelectFooterNav regions={regions} />
           </div>
         </div>
-        <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
-          <Text className="txt-compact-small">
-            © {new Date().getFullYear()} Medusa Store. All rights reserved.
-          </Text>
-          <MedusaCTA />
+
+        {/* Copyright */}
+        <div className="text-[12px] text-[#2f2723]/50 text-center pt-4 pb-2">
+          © {new Date().getFullYear()} SafarKnots, All Rights Reserved
         </div>
-      </div>
+      </Wrapper>
     </footer>
   )
 }

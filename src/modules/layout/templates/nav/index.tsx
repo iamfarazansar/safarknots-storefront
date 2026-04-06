@@ -29,16 +29,16 @@ export default async function Nav() {
   return (
     <NavShell>
       {/* ========== DESKTOP NAV (≥768px) ========== */}
-      <div className="hidden tablet:flex content-container h-full items-center justify-between px-6 medium:px-10">
+      <div className="hidden tablet:flex max-w-[1440px] w-full mx-auto h-full items-center justify-between px-8">
         {/* LEFT NAV LINKS */}
         <div
-          className="flex items-center gap-5 medium:gap-8 large:gap-10 flex-1"
+          className="flex items-center gap-7 flex-1"
         >
           {NAV_LINKS_LEFT.map((link) => (
             <LocalizedClientLink
               key={link.name}
               href={link.href}
-              className="text-[12px] medium:text-[13px] font-medium text-gray-600 hover:text-black transition-colors duration-200 whitespace-nowrap tracking-wide uppercase"
+              className="text-[12px] medium:text-[13px] font-medium text-[#5A463A] hover:text-[#3F2F26] transition-colors duration-200 whitespace-nowrap tracking-wide uppercase"
             >
               {link.name}
             </LocalizedClientLink>
@@ -46,28 +46,28 @@ export default async function Nav() {
         </div>
 
         {/* CENTER: Logo */}
-        <div className="flex items-center justify-center shrink-0 mx-6 medium:mx-10">
+        <div className="flex items-center justify-center shrink-0 mx-8">
           <Link href="/" className="block">
             <Image
               src="/logo_safar.png"
               alt="SafarKnots - Every Day Deserves a Luxury"
               width={789}
               height={464}
-              className="w-auto h-[65px] medium:h-[75px] large:h-[85px] object-contain"
+              className="w-auto h-[75px] object-contain"
               priority
             />
           </Link>
         </div>
 
         {/* RIGHT NAV LINKS + SEARCH + ICONS */}
-        <div className="flex items-center gap-5 medium:gap-8 large:gap-10 flex-1 justify-end">
+        <div className="flex items-center gap-7 flex-1 justify-end">
           {/* Right links — hidden via CSS when search is open */}
-          <div data-nav-right-links className="flex items-center gap-5 medium:gap-8 large:gap-10">
+          <div data-nav-right-links className="flex items-center gap-7">
             {NAV_LINKS_RIGHT.map((link) => (
               <LocalizedClientLink
                 key={link.name}
                 href={link.href}
-                className="text-[12px] medium:text-[13px] font-medium text-gray-600 hover:text-black transition-colors duration-200 whitespace-nowrap tracking-wide uppercase"
+                className="text-[12px] medium:text-[13px] font-medium text-[#5A463A] hover:text-[#3F2F26] transition-colors duration-200 whitespace-nowrap tracking-wide uppercase"
               >
                 {link.name}
               </LocalizedClientLink>
@@ -78,18 +78,18 @@ export default async function Nav() {
             <SearchBar />
 
             <LocalizedClientLink
-              className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-gray-100 cursor-pointer transition-colors duration-200"
+              className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-[#D8CDC0]/40 cursor-pointer transition-colors duration-200"
               href="/account"
               data-testid="nav-account-link"
             >
-              <BsPerson className="text-[22px] text-gray-600" />
+              <BsPerson className="text-[22px] text-[#5A463A]" />
             </LocalizedClientLink>
 
             <LocalizedClientLink
-              className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-gray-100 cursor-pointer transition-colors duration-200"
+              className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-[#D8CDC0]/40 cursor-pointer transition-colors duration-200"
               href="/wishlist"
             >
-              <BsHeart className="text-[17px] text-gray-600" />
+              <BsHeart className="text-[17px] text-[#5A463A]" />
             </LocalizedClientLink>
 
             <Suspense
@@ -109,29 +109,29 @@ export default async function Nav() {
         </div>
       </div>
 
-      {/* ========== MOBILE NAV (<768px) ========== */}
-      <div className="flex tablet:hidden h-full items-center justify-between px-4 w-full">
+      {/* ========== MOBILE NAV (<tablet) ========== */}
+      <div className="grid tablet:hidden grid-cols-3 h-full items-center px-5 w-full">
         {/* LEFT: Hamburger */}
-        <div className="flex items-center w-[60px]">
+        <div className="flex items-center justify-start">
           <NavMobile categories={productCategories} />
         </div>
 
         {/* CENTER: Logo */}
-        <div className="flex items-center justify-center flex-1">
+        <div className="flex items-center justify-center">
           <Link href="/" className="block">
             <Image
               src="/logo_safar.png"
               alt="SafarKnots"
               width={789}
               height={464}
-              className="w-auto h-[72px] object-contain"
+              className="w-auto h-[56px] object-contain"
               priority
             />
           </Link>
         </div>
 
         {/* RIGHT: Search + Cart */}
-        <div className="flex items-center gap-1 w-[60px] justify-end">
+        <div className="flex items-center justify-end gap-1">
           <SearchBar />
 
           <Suspense

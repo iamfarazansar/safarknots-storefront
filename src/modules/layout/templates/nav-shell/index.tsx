@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState, useRef, useCallback } from "react"
+import AnnouncementBanner from "@modules/layout/components/announcement-banner"
 
 type Props = {
   children: React.ReactNode
@@ -44,15 +45,19 @@ export default function NavShell({ children }: Props) {
 
   return (
     <>
-      {/* Spacer to prevent content from going under fixed nav */}
-      <div className="h-[76px] tablet:h-[90px]" />
+      {/* Spacer: banner (36px) + nav (78px mobile / 94px desktop) */}
+      <div className="h-[114px] tablet:h-[130px]" />
 
       <header
-        className={`w-full h-[76px] tablet:h-[90px] bg-[#FAF7F2] flex items-center justify-between z-50 fixed top-0 left-0 right-0 transition-transform duration-300 border-b border-gray-200/60 ${
-          visible ? "translate-y-0 shadow-[0_1px_8px_rgba(0,0,0,0.04)]" : "-translate-y-full"
+        className={`w-full fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ${
+          visible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        {children}
+        <AnnouncementBanner />
+
+        <div className="w-full h-[78px] tablet:h-[94px] bg-[#EEE6DD] flex items-center justify-between border-b border-[#D8CDC0] shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+          {children}
+        </div>
       </header>
     </>
   )

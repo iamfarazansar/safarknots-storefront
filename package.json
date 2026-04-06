@@ -28,6 +28,8 @@
     "@stripe/react-stripe-js": "^5.3.0",
     "@stripe/stripe-js": "^8.2.0",
     "algoliasearch": "^4.27.0",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
     "lodash": "^4.17.21",
     "medusajs-launch-utils": "^0.0.19",
     "meilisearch": "^0.57.0",

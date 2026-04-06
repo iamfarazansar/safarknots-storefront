@@ -71,12 +71,12 @@ export default function MenuMobile({
 
   return (
     <div
-      className={`fixed left-0 right-0 top-[76px] md:top-[120px] w-screen z-[9999] tablet:hidden grid transition-all duration-300 ease-out ${
+      className={`fixed left-0 right-0 top-[78px] w-screen z-[9999] tablet:hidden grid transition-all duration-300 ease-out ${
         isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
       }`}
     >
       <div className="overflow-hidden">
-        <ul className="max-h-[calc(100vh-50px)] md:max-h-[calc(100vh-80px)] overflow-y-auto text-black font-bold">
+        <ul className="max-h-[calc(100vh-78px)] overflow-y-auto text-black font-bold">
           <li className="px-5 py-4">
             <div
               ref={menuRef}

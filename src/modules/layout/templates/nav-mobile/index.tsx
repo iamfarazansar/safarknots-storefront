@@ -14,12 +14,12 @@ export default function NavMobile({ categories }: { categories: any[] }) {
       <button
         ref={toggleButtonRef}
         type="button"
-        className="w-10 h-10 rounded-full flex justify-center items-center hover:bg-black/[0.05] transition"
+        className="flex items-center justify-center p-0 transition"
         onClick={() => setMobileMenu((v) => !v)}
         aria-label={mobileMenu ? "Close menu" : "Open menu"}
       >
         {mobileMenu ? (
-          <VscChromeClose className="text-[18px]" />
+          <VscChromeClose className="text-[22px]" />
         ) : (
           <BiMenuAltLeft className="text-[22px]" />
         )}
